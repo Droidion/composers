@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
 namespace Site.Pages
 {
-    public class IndexModel : PageModel
+    public class ComposerModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public ComposerModel(ILogger<IndexModel> logger)
         {
             _logger = logger;
         }

@@ -1,0 +1,5 @@
+@page "~/{composer-slug}/{work-slug}"
+@model Site.Pages.WorkModel
+
+<h1>Work @RouteData.Values["work-slug"]</h1>
+<div>By composer @RouteData.Values["composer-slug"]</div>
