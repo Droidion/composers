@@ -3,9 +3,22 @@
 }
 
 body {
+    display: grid;
     font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+    grid-template-rows: auto 1fr auto;
 }
 
 h1, h2 {
     font-family: 'Domine', serif;
+}
+
+footer {
+    height: 4rem;
+}
+
+.footer-logo {
+    height: 2rem;
+    margin: 0 auto;
+    width: 2rem;
 }
