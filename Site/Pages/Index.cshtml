@@ -4,4 +4,8 @@
     ViewData["Title"] = "Periods";
 }
 
-<h1>Periods</h1>
+@foreach (var period in Model.Periods)
+{
+    <h1>@period.Name, @period.YearStart.ToString()&ndash;@(period.YearEnd > 0 ? period.YearEnd.ToString() : "")</h1>
+    <hr />
+}
