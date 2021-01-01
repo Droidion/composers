@@ -1,0 +1,31 @@
+@use 'colors'
+@use 'mixins'
+
+.header
+  @include mixins.centered-flex()
+  @include mixins.block-width()
+  justify-content: space-between
+  margin: 1.4rem 0
+  
+.brand
+  @include mixins.centered-flex()
+  
+  &__name
+    font-family: 'Domine', serif
+    font-size: 2rem
+    margin-left: 1rem
+
+.menu
+  @include mixins.centered-flex()
+
+  &__item
+    margin: 0 2rem
+    
+    &:last-child, &:first-child
+      margin: 0
+      
+.search
+  height: 2rem
+  padding: 1rem
+  border-radius: 1rem
+  border: 1px solid colors.$black
