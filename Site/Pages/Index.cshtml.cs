@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -10,7 +11,7 @@ namespace Site.Pages
     public class IndexModel : PageModel
     {
         private readonly ILogger<IndexModel> _logger;
-        internal AppDb Db { get; set; }
+        private AppDb Db { get; set; }
         public IEnumerable<Period> Periods { get; set; }
 
         public IndexModel(ILogger<IndexModel> logger, AppDb db)
@@ -21,7 +22,13 @@ namespace Site.Pages
 
         public async Task OnGet()
         {
+            await Db.Connection.OpenAsync();
             Periods = await PeriodData.GetAllPeriods(Db);
+            foreach (var period in Periods)
+            {
+                var composers = await ComposerData.GetComposersByPeriod(Db, period.Id);
+                period.Composers = composers.ToArray();
+            }
         }
     }
 }

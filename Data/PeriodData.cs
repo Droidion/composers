@@ -9,8 +9,8 @@ namespace Data
     {
         public static async Task<IEnumerable<Period>> GetAllPeriods(AppDb db)
         {
-            await db.Connection.OpenAsync();
-            return await db.Connection.QueryAsync<Period>("SELECT * FROM periods ORDER BY year_start");
+            const string sql = "SELECT * FROM periods ORDER BY year_start";
+            return await db.Connection.QueryAsync<Period>(sql);
         }
     }
 }
