@@ -1,4 +1,38 @@
-@page "~/{composer-slug}"
+@page "~/{slug}"
+@using Models
 @model Site.Pages.ComposerModel
 
-<h1>Composer @RouteData.Values["composer-slug"]</h1>
+<h1>@Model.Composer.FirstName @Model.Composer.LastName</h1>
+<div class="header-subtitle">
+    <span>@Model.Composer.Countries </span>
+    <span class="vertical-separator"></span>
+    <span>@Model.Composer.YearBorn.ToString()&ndash;@Model.Composer.YearDied.ToString() </span>
+    <span class="vertical-separator"></span>
+    <a href="@Model.Composer.WikipediaLink">Wikipedia</a>
+    <span class="vertical-separator"></span>
+    <a href="@Model.Composer.ImslpLink">IMSLP</a>
+</div>
+
+@foreach (var genre in Model.Genres)
+{
+    <h2>@genre.Icon @genre.Name</h2>
+    <hr />
+    <div class="card-list">
+        @foreach (var work in genre.Works)
+            {
+                <div class="card">
+                    <div>@work.Title</div>
+                    <div class="card__subtitle">
+                        <span>@work.YearStart.ToString()</span>
+                        @if (work.YearFinish != null)
+                        {
+                            <span>&ndash;@work.YearFinish.ToString()</span>
+                        }
+                        <span class="vertical-separator"></span>
+                        <span>@work.AverageMinutes.ToString()m</span>
+                    </div>
+                </div>
+            }
+    </div>
+                           
+}
