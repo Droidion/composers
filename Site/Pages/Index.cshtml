@@ -1,5 +1,6 @@
 ﻿@page
 @using Models
+@using static Helpers.StringHelpers
 @model Site.Pages.IndexModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
@@ -22,7 +23,7 @@
                     <div class="card__subtitle">
                         <span>@composer.Countries</span>
                         <span class="vertical-separator"></span>
-                        <span>@composer.YearBorn.ToString()&ndash;@(composer.YearDied.HasValue ? composer.YearDied.ToString() : "")</span>
+                        <span>@Html.Raw(FormatYearsRange(composer.YearBorn, composer.YearDied))</span>
                     </div>
                 </div>
             </a>

@@ -1,5 +1,6 @@
 @page "~/{slug}"
 @using Models
+@using static Helpers.StringHelpers
 @model Site.Pages.ComposerModel
 
 <h1>@Model.Composer.FirstName @Model.Composer.LastName</h1>
@@ -23,11 +24,7 @@
                 <div class="card">
                     <div>@work.Title</div>
                     <div class="card__subtitle">
-                        <span>@work.YearStart.ToString()</span>
-                        @if (work.YearFinish != null)
-                        {
-                            <span>&ndash;@work.YearFinish.ToString()</span>
-                        }
+                        <span>@Html.Raw(FormatYearsRange(work.YearStart, work.YearFinish))</span>
                         <span class="vertical-separator"></span>
                         <span>@work.AverageMinutes.ToString()m</span>
                     </div>
