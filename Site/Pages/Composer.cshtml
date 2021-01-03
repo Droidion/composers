@@ -24,9 +24,9 @@
                 <div class="card">
                     <div>@work.Title</div>
                     <div class="card__subtitle">
-                        <span>@Html.Raw(FormatYearsRange(work.YearStart, work.YearFinish))</span>
+                        <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
                         <span class="vertical-separator"></span>
-                        <span>@work.AverageMinutes.ToString()m</span>
+                        <span>@formatWorkLength(work.AverageMinutes)</span>
                     </div>
                 </div>
             }

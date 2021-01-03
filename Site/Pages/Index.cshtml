@@ -23,7 +23,7 @@
                     <div class="card__subtitle">
                         <span>@composer.Countries</span>
                         <span class="vertical-separator"></span>
-                        <span>@Html.Raw(FormatYearsRange(composer.YearBorn, composer.YearDied))</span>
+                        <span>@formatYearsRangeStrict(composer.YearBorn, composer.YearDied)</span>
                     </div>
                 </div>
             </a>

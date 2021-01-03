@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{B7BF6C10-42F5-46E8-9211-91413827AC0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Helpers\Helpers.csproj", "{A37134E8-7384-4743-B1E1-ACCE07F83E23}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Helpers", "Helpers\Helpers.fsproj", "{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,9 +32,9 @@ Global
 		{B7BF6C10-42F5-46E8-9211-91413827AC0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7BF6C10-42F5-46E8-9211-91413827AC0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7BF6C10-42F5-46E8-9211-91413827AC0A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A37134E8-7384-4743-B1E1-ACCE07F83E23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A37134E8-7384-4743-B1E1-ACCE07F83E23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A37134E8-7384-4743-B1E1-ACCE07F83E23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A37134E8-7384-4743-B1E1-ACCE07F83E23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
