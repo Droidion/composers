@@ -1,7 +1,9 @@
 @use 'mixins'
 
 .main
-  @include mixins.block-width() 
+  @include mixins.block-width()
+  grid-area: main
+  overflow: auto
   
 .header-subtitle
   margin-bottom: 1rem

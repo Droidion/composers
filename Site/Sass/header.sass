@@ -4,8 +4,12 @@
 .header
   @include mixins.centered-flex()
   @include mixins.block-width()
+  background-color: white
+  grid-area: header
   justify-content: space-between
-  margin: 1.4rem 0
+  padding: 1.4rem 0
+  position: sticky
+  top: 0
   
 .brand
   @include mixins.centered-flex()
