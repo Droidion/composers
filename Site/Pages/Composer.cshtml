@@ -19,7 +19,7 @@
     <h2>@genre.Icon @genre.Name</h2>
     <hr />
     <div class="card-list">
-        @foreach (var work in genre.Works)
+        @foreach (var work in genre.Works ??= new List<Work>())
             {
                 <div class="card">
                     <div>@work.Title</div>
