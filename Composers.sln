@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csp
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Helpers", "Helpers\Helpers.fsproj", "{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers.Tests", "Helpers.Tests\Helpers.Tests.csproj", "{344AD590-FCA3-41A7-B6EB-DAD7168B5EF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D87A3CB-A6A0-4D0C-89B8-D007586DC2A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344AD590-FCA3-41A7-B6EB-DAD7168B5EF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344AD590-FCA3-41A7-B6EB-DAD7168B5EF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344AD590-FCA3-41A7-B6EB-DAD7168B5EF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344AD590-FCA3-41A7-B6EB-DAD7168B5EF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
