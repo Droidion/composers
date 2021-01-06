@@ -1,5 +1,4 @@
 ﻿@page
-@using Models
 @using static Helpers.StringHelpers
 @model Site.Pages.IndexModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
@@ -12,7 +11,7 @@
     <h2>@period.Name, @period.YearStart.ToString()&ndash;@(period.YearEnd.HasValue ? period.YearEnd.ToString() : "")</h2>
     <hr/>
     <div class="card-list">
-        @foreach (var composer in period.Composers ?? new Composer[0])
+        @foreach (var composer in period.Composers)
         {
             <a href="/@composer.Slug">
                 <div class="card">
