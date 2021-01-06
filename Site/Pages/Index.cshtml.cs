@@ -17,10 +17,11 @@ namespace Site.Pages
         /// Logger service
         /// </summary>
         private readonly ILogger<IndexModel> _logger;
+
         /// <summary>
         /// Service for making database queries
         /// </summary>
-        private DbQuery DbQuery { get; }
+        private readonly DbQuery _dbQuery;
         /// <summary>
         /// Composers grouped by musical periods
         /// </summary>
@@ -34,7 +35,7 @@ namespace Site.Pages
         public IndexModel(ILogger<IndexModel> logger, DbQuery dbQuery)
         {
             Periods = System.Array.Empty<Period>();
-            DbQuery = dbQuery;
+            _dbQuery = dbQuery;
             _logger = logger;
         }
 
@@ -45,7 +46,7 @@ namespace Site.Pages
         [PublicAPI]
         public async Task OnGet()
         {
-            Periods = await DbQuery.GetPeriodsAndComposers();
+            Periods = await _dbQuery.GetPeriodsAndComposers();
         }
     }
 }

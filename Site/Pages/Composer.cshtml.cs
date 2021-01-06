@@ -18,10 +18,11 @@ namespace Site.Pages
         /// Logger service
         /// </summary>
         private readonly ILogger<IndexModel> _logger;
+
         /// <summary>
         /// Service for making database queries
         /// </summary>
-        private DbQuery DbQuery { get; }
+        private readonly DbQuery _dbQuery;
         /// <summary>
         /// Composer's works grouped by genres
         /// </summary>
@@ -38,7 +39,7 @@ namespace Site.Pages
         /// <param name="dbQuery">Service for making database queries</param>
         public ComposerModel(ILogger<IndexModel> logger, DbQuery dbQuery)
         {
-            DbQuery = dbQuery;
+            _dbQuery = dbQuery;
             _logger = logger;
             Genres = System.Array.Empty<Genre>();
             Composer = new Composer();
@@ -52,8 +53,8 @@ namespace Site.Pages
         [PublicAPI]
         public async Task OnGet(string slug)
         {
-            Composer = await DbQuery.GetComposerBySlug(slug);
-            Genres = await DbQuery.GetGenresAndWorksByComposer(Composer.Id);
+            Composer = await _dbQuery.GetComposerBySlug(slug);
+            Genres = await _dbQuery.GetGenresAndWorksByComposer(Composer.Id);
         }
     }
 }
