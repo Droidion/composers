@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data;
@@ -41,7 +42,7 @@ namespace Site.Pages
         {
             _dbQuery = dbQuery;
             _logger = logger;
-            Genres = System.Array.Empty<Genre>();
+            Genres = Array.Empty<Genre>();
             Composer = new Composer();
         }
 
@@ -53,8 +54,15 @@ namespace Site.Pages
         [PublicAPI]
         public async Task OnGet(string slug)
         {
-            Composer = await _dbQuery.GetComposerBySlug(slug);
-            Genres = await _dbQuery.GetGenresAndWorksByComposer(Composer.Id);
+            try
+            {
+                Composer = await _dbQuery.GetComposerBySlug(slug);
+                Genres = await _dbQuery.GetGenresAndWorksByComposer(Composer.Id);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+            }
         }
     }
 }

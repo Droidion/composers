@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,7 @@ namespace Site.Pages
         /// Service for making database queries
         /// </summary>
         private readonly DbQuery _dbQuery;
+
         /// <summary>
         /// Composers grouped by musical periods
         /// </summary>
@@ -34,7 +36,7 @@ namespace Site.Pages
         /// <param name="dbQuery">Service for making database queries</param>
         public IndexModel(ILogger<IndexModel> logger, DbQuery dbQuery)
         {
-            Periods = System.Array.Empty<Period>();
+            Periods = Array.Empty<Period>();
             _dbQuery = dbQuery;
             _logger = logger;
         }
@@ -46,7 +48,14 @@ namespace Site.Pages
         [PublicAPI]
         public async Task OnGet()
         {
-            Periods = await _dbQuery.GetPeriodsAndComposers();
+            try
+            {
+                Periods = await _dbQuery.GetPeriodsAndComposers();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+            }
         }
     }
 }

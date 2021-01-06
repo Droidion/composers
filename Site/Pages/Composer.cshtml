@@ -18,19 +18,16 @@
     <h2>@genre.Icon @genre.Name</h2>
     <hr/>
     <div class="card-list">
-        @if (genre.Works != null)
+        @foreach (var work in genre.Works)
         {
-            foreach (var work in genre.Works)
-            {
-                <div class="card">
-                    <div>@work.Title</div>
-                    <div class="card__subtitle">
-                        <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
-                        <span class="vertical-separator"></span>
-                        <span>@formatWorkLength(work.AverageMinutes)</span>
-                    </div>
+            <div class="card">
+                <div>@work.Title</div>
+                <div class="card__subtitle">
+                    <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
+                    <span class="vertical-separator"></span>
+                    <span>@formatWorkLength(work.AverageMinutes)</span>
                 </div>
-            }
+            </div>
         }
     </div>
 }
