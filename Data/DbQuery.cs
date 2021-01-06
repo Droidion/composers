@@ -7,32 +7,37 @@ using Npgsql;
 
 namespace Data
 {
+    /// <summary>
+    /// Parameter for an SQL query.
+    /// </summary>
     internal record SqlParam(string Key, object Value);
     
-    public static class Query
+    /// <summary>
+    /// Postgres database queries.
+    /// </summary>
+    public class DbQuery : IDisposable
     {
-        private static async Task<T> Extract<T>(NpgsqlConnection conn, string sql, IEnumerable<SqlParam>? parameters)
+        /// <summary>
+        /// Postgres connection.
+        /// </summary>
+        private NpgsqlConnection Connection { get; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="connectionString">Postgres database connection string</param>
+        public DbQuery(string connectionString)
         {
-            await using var cmd = new NpgsqlCommand(sql, conn);
-            if (parameters != null)
-                foreach (var (key, value) in parameters)
-                {
-                    cmd.Parameters.AddWithValue(key, value);
-                }
-
-            await using var reader = await cmd.ExecuteReaderAsync();
-            await reader.ReadAsync();
-            var rawJson = reader.GetString(0);
-            var json = JsonSerializer.Deserialize<T>(rawJson);
-            if (json == null)
-            {
-                throw new InvalidOperationException("Could not parse DB JSON data");
-            }
-
-            return json;
+            // Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
+            Connection = new NpgsqlConnection(connectionString);
         }
 
-        public static async Task<Composer> GetComposerBySlug(AppDb db, string slug)
+        /// <summary>
+        /// Retrieves composer's info by their slug name. Does not contain works
+        /// </summary>
+        /// <param name="slug">Unique text id of the composer, like 'beethoven' or 'cpe-bach'</param>
+        /// <returns>Composer info</returns>
+        public async Task<Composer> GetComposerBySlug(string slug)
         {
             const string sql = @"
 select json_build_object(
@@ -53,10 +58,14 @@ group by c.id, c.last_name, c.first_name, c.year_born, c.year_died
 order by c.last_name
 ";
             var parameters = new SqlParam[] {new("ComposerSlug", slug)};
-            return await Extract<Composer>(db.Connection, sql, parameters);
+            return await ExtractJson<Composer>(sql, parameters);
         }
 
-        public static async Task<IEnumerable<Period>> GetAllPeriods(AppDb db)
+        /// <summary>
+        /// Retrieves the composers grouped by the musical periods.
+        /// </summary>
+        /// <returns>Musical periods</returns>
+        public async Task<IEnumerable<Period>> GetPeriodsAndComposers()
         {
             const string sql = @"
 select json_agg(json_build_object(
@@ -101,17 +110,22 @@ from (select p.id,
       ) c on p.id = c.period_id
       group by p.id, p.name, p.year_start, p.year_end, p.slug) p;            
 ";
-            return await Extract<IEnumerable<Period>>(db.Connection, sql, null);
+            return await ExtractJson<IEnumerable<Period>>(sql, null);
         }
 
-        public static async Task<IEnumerable<Genre>> GetWorksByComposer(AppDb db, int composerId)
+        /// <summary>
+        /// Retrieves the works of a certain composer grouped by the musical genres
+        /// </summary>
+        /// <param name="composerId">Composer's Id in the database</param>
+        /// <returns>Composer's works grouped by genres</returns>
+        public async Task<IEnumerable<Genre>> GetGenresAndWorksByComposer(int composerId)
         {
             const string sql = @"
 select json_agg(json_build_object(
-                        'Name', p.name,
-                        'Icon', p.icon,
-                        'Works', p.works
-                    ) order by p.name) json
+                        'Name', g.name,
+                        'Icon', g.icon,
+                        'Works', g.works
+                    ) order by g.name) json
 from (select g.name,
              g.icon,
              json_agg(json_build_object(
@@ -130,11 +144,56 @@ from (select g.name,
                left join catalogues c on w.catalogue_id = c.id
       where w.composer_id = @ComposerId
       group by g.name,
-               g.icon) p
+               g.icon) g
 ";
             
             var parameters = new SqlParam[] {new("ComposerId", composerId)};
-            return await Extract<IEnumerable<Genre>>(db.Connection, sql, parameters);
+            return await ExtractJson<IEnumerable<Genre>>(sql, parameters);
+        }
+        
+        /// <summary>
+        /// Disposes of the DB connection.
+        /// </summary>
+        public void Dispose() => Connection.Dispose();
+        
+        /// <summary>
+        /// Extracts JSON data from the Postgres database.
+        /// </summary>
+        /// <param name="sql">SQL request</param>
+        /// <param name="parameters">Parameters for SQL request</param>
+        /// <typeparam name="T">Return data</typeparam>
+        /// <returns>Data instance</returns>
+        /// <exception cref="InvalidOperationException">Could not parse DB JSON data</exception>
+        private async Task<T> ExtractJson<T>(string sql, IEnumerable<SqlParam>? parameters)
+        {
+            await Connection.OpenAsync();
+            
+            // Create SQL command
+            await using var cmd = new NpgsqlCommand(sql, Connection);
+            
+            // Add parameters for SQL command
+            if (parameters != null)
+                foreach (var (key, value) in parameters)
+                {
+                    cmd.Parameters.AddWithValue(key, value);
+                }
+
+            // Read data as a single string
+            await using var reader = await cmd.ExecuteReaderAsync();
+            await reader.ReadAsync();
+            var rawJson = reader.GetString(0);
+            
+            // Close connection before parsing result
+            await Connection.CloseAsync();
+            
+            // Parse json into model
+            var json = JsonSerializer.Deserialize<T>(rawJson);
+            if (json == null)
+            {
+                throw new InvalidOperationException("Could not parse DB JSON data");
+            }
+
+            return json;
         }
     }
 }

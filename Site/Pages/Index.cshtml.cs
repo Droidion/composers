@@ -1,29 +1,51 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Models;
 using Data;
+using JetBrains.Annotations;
 
 namespace Site.Pages
 {
+    /// <summary>
+    /// Main page showing all composers grouped by musical periods
+    /// </summary>
     public class IndexModel : PageModel
     {
+        /// <summary>
+        /// Logger service
+        /// </summary>
         private readonly ILogger<IndexModel> _logger;
-        private AppDb Db { get; set; }
-        public IEnumerable<Period> Periods { get; set; }
+        /// <summary>
+        /// Service for making database queries
+        /// </summary>
+        private DbQuery DbQuery { get; }
+        /// <summary>
+        /// Composers grouped by musical periods
+        /// </summary>
+        public IEnumerable<Period> Periods { get; private set; }
 
-        public IndexModel(ILogger<IndexModel> logger, AppDb db)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="logger">Logger service</param>
+        /// <param name="dbQuery">Service for making database queries</param>
+        public IndexModel(ILogger<IndexModel> logger, DbQuery dbQuery)
         {
-            Db = db;
+            Periods = System.Array.Empty<Period>();
+            DbQuery = dbQuery;
             _logger = logger;
         }
 
+        /// <summary>
+        /// GET /
+        /// </summary>
+        /// <returns>Composers grouped by musical periods</returns>
+        [PublicAPI]
         public async Task OnGet()
         {
-            await Db.Connection.OpenAsync();
-            Periods = await Query.GetAllPeriods(Db);
+            Periods = await DbQuery.GetPeriodsAndComposers();
         }
     }
 }
