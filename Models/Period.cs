@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace Models
+﻿namespace Models
 {
-    public record Period
-    {
-        public int Id { get; }
-        public string Name { get; }
-        public int YearStart { get; }
-        public int? YearEnd { get; }
-        public string Slug { get; }
-        public Composer[]? Composers { get; set; }
-    }
+    public record Period(
+        int Id,
+        string Name,
+        int YearStart,
+        int? YearEnd,
+        string Slug,
+        Composer[] Composers
+    );
 }

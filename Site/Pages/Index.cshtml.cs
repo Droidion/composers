@@ -24,11 +24,6 @@ namespace Site.Pages
         {
             await Db.Connection.OpenAsync();
             Periods = await PeriodData.GetAllPeriods(Db);
-            foreach (var period in Periods)
-            {
-                var composers = await ComposerData.GetComposersByPeriod(Db, period.Id);
-                period.Composers = composers.ToArray();
-            }
         }
     }
 }

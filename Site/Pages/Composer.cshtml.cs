@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -24,7 +23,7 @@ namespace Site.Pages
         public async Task OnGet(string slug)
         {
             await Db.Connection.OpenAsync();
-            Composer = (await ComposerData.GetComposerBySlug(Db, slug)).ToArray()[0];
+            Composer = await ComposerData.GetComposerBySlug(Db, slug);
             Genres = await WorkData.GetWorksByComposer(Db, Composer.Id);
         }
     }

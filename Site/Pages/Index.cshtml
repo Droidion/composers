@@ -21,7 +21,7 @@
                         <span class="card__light-text">@composer.FirstName</span>
                     </div>
                     <div class="card__subtitle">
-                        <span>@composer.Countries</span>
+                        <span>@string.Join(", ", composer.Countries)</span>
                         <span class="vertical-separator"></span>
                         <span>@formatYearsRangeStrict(composer.YearBorn, composer.YearDied)</span>
                     </div>

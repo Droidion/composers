@@ -1,11 +1,10 @@
 @page "~/{slug}"
-@using Models
 @using static Helpers.StringHelpers
 @model Site.Pages.ComposerModel
 
 <h1>@Model.Composer.FirstName @Model.Composer.LastName</h1>
 <div class="header-subtitle">
-    <span>@Model.Composer.Countries </span>
+    <span>@string.Join(", ", Model.Composer.Countries)</span>
     <span class="vertical-separator"></span>
     <span>@Model.Composer.YearBorn.ToString()&ndash;@Model.Composer.YearDied.ToString() </span>
     <span class="vertical-separator"></span>
@@ -17,9 +16,11 @@
 @foreach (var genre in Model.Genres)
 {
     <h2>@genre.Icon @genre.Name</h2>
-    <hr />
+    <hr/>
     <div class="card-list">
-        @foreach (var work in genre.Works ??= new List<Work>())
+        @if (genre.Works != null)
+        {
+            foreach (var work in genre.Works)
             {
                 <div class="card">
                     <div>@work.Title</div>
@@ -30,6 +31,6 @@
                     </div>
                 </div>
             }
+        }
     </div>
-                           
 }
