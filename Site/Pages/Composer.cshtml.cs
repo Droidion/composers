@@ -23,8 +23,8 @@ namespace Site.Pages
         public async Task OnGet(string slug)
         {
             await Db.Connection.OpenAsync();
-            Composer = await ComposerData.GetComposerBySlug(Db, slug);
-            Genres = await WorkData.GetWorksByComposer(Db, Composer.Id);
+            Composer = await Query.GetComposerBySlug(Db, slug);
+            Genres = await Query.GetWorksByComposer(Db, Composer.Id);
         }
     }
 }

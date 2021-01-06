@@ -23,7 +23,7 @@ namespace Site.Pages
         public async Task OnGet()
         {
             await Db.Connection.OpenAsync();
-            Periods = await PeriodData.GetAllPeriods(Db);
+            Periods = await Query.GetAllPeriods(Db);
         }
     }
 }
