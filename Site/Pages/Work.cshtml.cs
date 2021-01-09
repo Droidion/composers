@@ -33,6 +33,9 @@ namespace Site.Pages
         /// </summary>
         public Work Work { get; private set; } = new();
         
+        /// <summary>
+        /// Works that have parent works. Like, individual sonatas of Beethoven's Late Piano Sonatas
+        /// </summary>
         public Work[] ChildWorks { get; private set; } = Array.Empty<Work>();
 
         /// <summary>
@@ -46,6 +49,12 @@ namespace Site.Pages
             _logger = logger;
         }
 
+        /// <summary>
+        /// GET /composer/{composerSlug}/work/{workId}
+        /// </summary>
+        /// <param name="composerSlug">Composer's unique string identifier, like 'cpe-bach'</param>
+        /// <param name="workId">Work Id</param>
+        /// <returns>Recordings of a certain work</returns>
         [PublicAPI]
         public async Task OnGet(string composerSlug, int workId)
         {

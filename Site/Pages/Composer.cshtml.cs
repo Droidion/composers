@@ -47,7 +47,7 @@ namespace Site.Pages
         }
 
         /// <summary>
-        /// GET /{composer-slug}
+        /// GET /composer/{slug}
         /// </summary>
         /// <param name="slug">Unique text Id of the composer, like 'beethoven' or 'cpe-bach'</param>
         /// <returns>Composer's information, works grouped by genres</returns>
