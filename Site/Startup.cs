@@ -21,7 +21,8 @@ namespace Site
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient(_ => new DbQuery(Configuration["ConnectionStrings:PostgresConnection"]));
+            services.AddSingleton(_ => new DbFactory(Configuration["ConnectionStrings:PostgresConnection"]));
+            services.AddTransient<DbQuery>();
             
             IMvcBuilder builder = services.AddRazorPages();
 #if DEBUG

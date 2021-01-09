@@ -25,7 +25,7 @@ namespace Models
         /// Year when composer finished the work, if known.
         /// Can be used without YearStart if the work was finished in a single year.
         /// </summary>
-        public int? YearFinish { get; init; }
+        public int? YearFinish { get; init; } 
         /// <summary>
         /// Approximate length of the work. Summarization of several recordings, does not need to be exact, just like 30 minutes vs 2 hours.
         /// </summary>
@@ -42,5 +42,13 @@ namespace Models
         /// Postfix for the number of the work in the catalogue, like "b" in the "Op. 123b".
         /// </summary>
         public string? CataloguePostfix { get; init; }
+        /// <summary>
+        /// Work key, like C# minor
+        /// </summary>
+        public string? Key { get; init; }
+        /// <summary>
+        /// Work number in some sequence, like the number of symphony or sonata 
+        /// </summary>
+        public int? No { get; init; }
     }
 }

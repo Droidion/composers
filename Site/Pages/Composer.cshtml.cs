@@ -18,32 +18,32 @@ namespace Site.Pages
         /// <summary>
         /// Logger service
         /// </summary>
-        private readonly ILogger<IndexModel> _logger;
+        private readonly ILogger<ComposerModel> _logger;
 
         /// <summary>
         /// Service for making database queries
         /// </summary>
         private readonly DbQuery _dbQuery;
+        
         /// <summary>
         /// Composer's works grouped by genres
         /// </summary>
-        public IEnumerable<Genre> Genres { get; private set; }
+        public IEnumerable<Genre> Genres { get; private set; } = Array.Empty<Genre>();
+        
         /// <summary>
         /// Composer's info
         /// </summary>
-        public Composer Composer { get; private set; }
+        public Composer Composer { get; private set; } = new();
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="logger">Logger service</param>
         /// <param name="dbQuery">Service for making database queries</param>
-        public ComposerModel(ILogger<IndexModel> logger, DbQuery dbQuery)
+        public ComposerModel(ILogger<ComposerModel> logger, DbQuery dbQuery)
         {
             _dbQuery = dbQuery;
             _logger = logger;
-            Genres = Array.Empty<Genre>();
-            Composer = new Composer();
         }
 
         /// <summary>

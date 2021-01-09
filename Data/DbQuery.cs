@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Dapper;
 using Models;
 using Npgsql;
 
@@ -15,21 +16,13 @@ namespace Data
     /// <summary>
     /// Postgres database queries.
     /// </summary>
-    public class DbQuery : IDisposable
+    public class DbQuery
     {
-        /// <summary>
-        /// Postgres connection.
-        /// </summary>
-        private NpgsqlConnection Connection { get; }
+        private readonly DbFactory _DbFactory;
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="connectionString">Postgres database connection string</param>
-        public DbQuery(string connectionString)
+        public DbQuery(DbFactory dbFactory)
         {
-            // Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
-            Connection = new NpgsqlConnection(connectionString);
+            _DbFactory = dbFactory;
         }
 
         /// <summary>
@@ -57,6 +50,7 @@ where c.slug = @ComposerSlug
 group by c.id, c.last_name, c.first_name, c.year_born, c.year_died
 order by c.last_name
 ";
+            
             var parameters = new SqlParam[] {new("ComposerSlug", slug)};
             return await ExtractJson<Composer>(sql, parameters);
         }
@@ -114,6 +108,69 @@ from (select p.id,
         }
 
         /// <summary>
+        /// Retrieves the work from a database by work's Id
+        /// </summary>
+        /// <param name="id">Work Id</param>
+        /// <returns>Work object</returns>
+        public async Task<IEnumerable<Work>> GetWorkById(int id)
+        {
+            var sql = @"
+select w.id,
+       w.title,
+       w.year_start,
+       w.year_finish,
+       w.average_minutes,
+       c.name as catalogue_name,
+       w.catalogue_number,
+       w.catalogue_postfix,
+       k.name as key,
+       w.no
+from works w
+         left join catalogues c on w.catalogue_id = c.id
+         left join keys k on w.key_id = k.id
+where w.id = @Id;
+        ";
+            await using var conn = _DbFactory.MakeConn();
+            await conn.OpenAsync();
+            
+            var works = await conn.QueryAsync<Work>(sql, new {Id = id});
+            return works;
+        }
+        
+        /// <summary>
+        /// Retrieves the list of works that are children of a given parent work,
+        /// For example, there is the parent work which is Bach's Violin Sonatas and Partitas, and it contains 6 individual works
+        /// </summary>
+        /// <param name="parentWorkId">Id of the parent work</param>
+        /// <returns>List of works</returns>
+        public async Task<IEnumerable<Work>> GetChildWorks(int parentWorkId)
+        {
+            var sql = @"
+select w.id,
+       w.title,
+       w.year_start,
+       w.year_finish,
+       w.average_minutes,
+       c.name as catalogue_name,
+       w.catalogue_number,
+       w.catalogue_postfix,
+       k.name as key,
+       w.no
+from works w
+         left join catalogues c on w.catalogue_id = c.id
+         left join keys k on w.key_id = k.id
+where w.parent_work_id = @Id
+order by no, catalogue_number, catalogue_postfix;
+        ";
+            
+            await using var conn = _DbFactory.MakeConn();
+            await conn.OpenAsync();
+            
+            var works = await conn.QueryAsync<Work>(sql, new {Id = parentWorkId});
+            return works;
+        }
+
+        /// <summary>
         /// Retrieves the works of a certain composer grouped by the musical genres
         /// </summary>
         /// <param name="composerId">Composer's Id in the database</param>
@@ -136,12 +193,15 @@ from (select g.name,
                               'AverageMinutes', w.average_minutes,
                               'CatalogueName', c.name,
                               'CatalogueNumber', w.catalogue_number,
-                              'CataloguePostfix', w.catalogue_postfix
+                              'CataloguePostfix', w.catalogue_postfix,
+                              'Key', k.name,
+                              'No', w.no
                           ) order by w.year_start, w.catalogue_number) works
       from works w
                join works_genres wg on w.id = wg.work_id
                join genres g on wg.genre_id = g.id
                left join catalogues c on w.catalogue_id = c.id
+               left join keys k on w.key_id = k.id
       where w.composer_id = @ComposerId
       group by g.name,
                g.icon) g
@@ -152,10 +212,55 @@ from (select g.name,
         }
         
         /// <summary>
-        /// Disposes of the DB connection.
+        /// Retrieves recordings of a certain work from a database
         /// </summary>
-        public void Dispose() => Connection.Dispose();
-        
+        /// <param name="workId">Work Id</param>
+        /// <returns>List of recordings</returns>
+        public async Task<IEnumerable<Recording>> GetRecordingsByWork(int workId)
+        {
+            const string sql = @"
+select json_agg(json_build_object(
+                        'Id', w.Id,
+                        'CoverName', w.cover_name,
+                        'Performers', w.performers,
+                        'Label', w.name,
+                        'Length', w.length,
+                        'Streamers', w.streamers
+                    ) order by w.last_name) json
+from (select r.id,
+             r.cover_name,
+             json_agg(json_build_object(
+                 'FirstName', p.first_name,
+                 'LastName', p.last_name,
+                 'Priority', pri.priority
+                 )) performers,
+             p.first_name,
+             p.last_name,
+             l.name,
+             r.length,
+             json_agg(json_build_object('Name', s.name,
+                                        'Icon', s.icon_name,
+                                        'Link', rs.link) order by s.name) streamers
+      from recordings r
+               join performers_recordings_instruments pri on r.id = pri.recording_id
+               join performers p on pri.performer_id = p.id
+               join labels l on r.label_id = l.id
+               join recordings_streamers rs on r.id = rs.recording_id
+               join streamers s on rs.streamer_id = s.id
+               join instruments i on pri.instrument_id = i.id
+      where r.work_id = @WorkId
+      group by r.id,
+               r.cover_name,
+               p.first_name,
+               p.last_name,
+               l.name,
+               r.length) w
+";
+            
+            var parameters = new SqlParam[] {new("WorkId", workId)};
+            return await ExtractJson<IEnumerable<Recording>>(sql, parameters);
+        }
+
         /// <summary>
         /// Extracts JSON data from the Postgres database.
         /// </summary>
@@ -166,10 +271,11 @@ from (select g.name,
         /// <exception cref="InvalidOperationException">Could not parse DB JSON data</exception>
         private async Task<T> ExtractJson<T>(string sql, IEnumerable<SqlParam>? parameters)
         {
-            await Connection.OpenAsync();
+            await using var conn = _DbFactory.MakeConn();
+            await conn.OpenAsync();
             
             // Create SQL command
-            await using var cmd = new NpgsqlCommand(sql, Connection);
+            await using var cmd = new NpgsqlCommand(sql, conn);
             
             // Add parameters for SQL command
             if (parameters != null)
@@ -182,9 +288,6 @@ from (select g.name,
             await using var reader = await cmd.ExecuteReaderAsync();
             await reader.ReadAsync();
             var rawJson = reader.GetString(0);
-            
-            // Close connection before parsing result
-            await Connection.CloseAsync();
             
             // Parse json into model
             var json = JsonSerializer.Deserialize<T>(rawJson);

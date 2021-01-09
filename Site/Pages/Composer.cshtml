@@ -1,4 +1,4 @@
-@page "~/{slug}"
+@page "~/composer/{slug}"
 @using static Helpers.StringHelpers
 @model Site.Pages.ComposerModel
 
@@ -20,14 +20,16 @@
     <div class="card-list">
         @foreach (var work in genre.Works)
         {
-            <div class="card">
-                <div>@work.Title</div>
-                <div class="card__subtitle">
-                    <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
-                    <span class="vertical-separator"></span>
-                    <span>@formatWorkLength(work.AverageMinutes)</span>
+            <a href="/composer/@Model.Composer.Slug/work/@work.Id.ToString()">
+                <div class="card">
+                    <div>@work.Title</div>
+                    <div class="card__subtitle">
+                        <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
+                        <span class="vertical-separator"></span>
+                        <span>@formatWorkLength(work.AverageMinutes)</span>
+                    </div>
                 </div>
-            </div>
+            </a>
         }
     </div>
 }

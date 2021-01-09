@@ -1,5 +1,55 @@
-@page "~/{composer-slug}/{work-slug}"
+@page "~/composer/{composerSlug}/work/{workId}"
+@using static Helpers.StringHelpers
 @model Site.Pages.WorkModel
 
-<h1>Work @RouteData.Values["work-slug"]</h1>
-<div>By composer @RouteData.Values["composer-slug"]</div>
+<h1>@Model.Work.Title</h1>
+<div class="header-subtitle">by @Model.Composer.FirstName @Model.Composer.LastName</div>
+
+@if (Model.ChildWorks.Length > 0)
+{
+    <h2>Individual Works</h2>
+    <hr/>
+    <div class="card-list">
+        @foreach (var work in Model.ChildWorks)
+        {
+            <div class="card">
+                <div>
+                    <span>@work.Title </span>
+                    @if (work.No != null)
+                    {
+                        <span>No. @work.No.ToString() </span>
+                    }
+                    @if (work.Key != null)
+                    {
+                        <span>in @work.Key</span>
+                    }
+                </div>
+                <div class="card__subtitle">
+                    <span>@work.CatalogueName @work.CatalogueNumber @work.CataloguePostfix</span>
+                    <span class="vertical-separator"></span>
+                    <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<h2>Recommended Recordings</h2>
+<hr/>
+
+<div class="card-list">
+    @foreach (var recording in Model.Recordings)
+    {
+        <div class="card">
+            @foreach (var performer in recording.Performers)
+            {
+                <div>@performer.FirstName @performer.LastName</div>
+            }
+            <div class="card__subtitle">
+                <span>@recording.Label</span>
+                <span class="vertical-separator"></span>
+                <span>@formatWorkLength(recording.Length)</span>
+            </div>
+        </div>
+    }
+</div>
