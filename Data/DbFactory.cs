@@ -13,7 +13,7 @@ namespace Data
 
         public NpgsqlConnection MakeConn()
         {
-            return new NpgsqlConnection(_connectionString);
+            return new(_connectionString);
         }
     }
 }

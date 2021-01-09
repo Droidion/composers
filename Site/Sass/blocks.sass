@@ -1,4 +1,5 @@
 @use 'colors'
+@use 'mixins'
 
 .card-list
   display: flex
@@ -8,10 +9,30 @@
 .card
   margin: 0 1.4rem 0.8rem 0
   
+  &.illustrated
+    display: flex
+    margin: 0.5rem 2rem 1.5rem 0
+  
   &__light-text
     font-weight: 300
     
   &__subtitle
     font-size: 0.8rem
     font-weight: 300
-  
+    
+  &__streamers
+    @include mixins.centered-flex()
+    display: flex
+    
+  &__streamer-el
+    margin: 0.2rem 0.5rem 0 0
+    
+    img
+      width: 24px
+   
+    
+.cover
+  float: left
+  height: 200px
+  width: 200px
+  margin-right: 1.5rem

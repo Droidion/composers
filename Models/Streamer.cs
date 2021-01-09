@@ -8,5 +8,6 @@ namespace Models
         public string Name { get; init; }
         public string Icon { get; init; }
         public string Link { get; init; }
+        public string Prefix { get; init; }
     }
 }

@@ -13,6 +13,7 @@ namespace Site
         {
             Configuration = configuration;
             Env = env;
+            Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
 
         public IWebHostEnvironment Env { get; set; }

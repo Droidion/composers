@@ -25,8 +25,11 @@
                     }
                 </div>
                 <div class="card__subtitle">
-                    <span>@work.CatalogueName @work.CatalogueNumber @work.CataloguePostfix</span>
-                    <span class="vertical-separator"></span>
+                    @if (work.CatalogueName != null)
+                    {
+                        <span>@work.CatalogueName @work.CatalogueNumber.ToString() @work.CataloguePostfix</span>
+                        <span class="vertical-separator"></span>
+                    }
                     <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
                 </div>
             </div>
@@ -40,16 +43,37 @@
 <div class="card-list">
     @foreach (var recording in Model.Recordings)
     {
-        <div class="card">
-            @foreach (var performer in recording.Performers)
-            {
-                <div>@performer.FirstName @performer.LastName</div>
-            }
-            <div class="card__subtitle">
-                <span>@recording.Label</span>
-                <span class="vertical-separator"></span>
-                <span>@formatWorkLength(recording.Length)</span>
+        <div class="card illustrated">
+            <img class="cover" src="~/img/covers/@recording.CoverName" alt="Cover"/>
+            <div>
+                @foreach (var performer in recording.Performers)
+                {
+                    <div>
+                        @if (performer.Instrument != null)
+                        {
+                            <span>@performer.FirstName @performer.LastName, <em>@performer.Instrument</em></span>
+                        }
+                        else
+                        {
+                            <span>@performer.FirstName @performer.LastName</span>
+                        }
+                    </div>
+                }
+                <div class="card__subtitle">
+                    <span>@recording.Label</span>
+                    <span class="vertical-separator"></span>
+                    <span>@formatWorkLength(recording.Length)</span>
+                </div>
+                <div class="card__streamers">
+                    @foreach (var streamer in recording.Streamers)
+                    {
+                        <div class="card__streamer-el">
+                            <a href="@streamer.Prefix@streamer.Link"><img src="~/img/@streamer.Icon" alt="Streaming service logo" /></a>
+                        </div>
+                    }
+                </div>
             </div>
+
         </div>
     }
 </div>
