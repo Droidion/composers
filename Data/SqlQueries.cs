@@ -147,6 +147,8 @@ from (select g.name,
 select jsonb_agg(jsonb_build_object(
                         'Id', w.Id,
                         'CoverName', w.cover_name,
+                        'YearStart', w.year_start,
+                        'YearFinish', w.year_finish,
                         'Performers', w.performers,
                         'Label', w.name,
                         'Length', w.length,
@@ -160,12 +162,16 @@ from (select r.id,
                'Instrument', i.name
            ) order by pri.priority, p.last_name) performers,
        r.cover_name,
+       r.year_start,
+       r.year_finish,
        r.name,
        r.length,
        r.streamers
 from (
          select r.id,
                 r.cover_name,
+                r.year_start,
+                r.year_finish,
                 l.name,
                 r.length,
                 jsonb_agg(jsonb_build_object('Name', s.name,
@@ -179,6 +185,8 @@ from (
          where r.work_id = @WorkId
          group by r.id,
                   r.cover_name,
+                  r.year_start,
+                  r.year_finish,
                   l.name,
                   r.length
      ) r
@@ -187,8 +195,11 @@ from (
          join instruments i on pri.instrument_id = i.id
 group by r.id,
          r.cover_name,
+         r.year_start,
+         r.year_finish,
          r.name,
          r.length,
-         r.streamers) w";
+         r.streamers
+order by r.year_finish) w";
     }
 }

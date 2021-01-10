@@ -61,6 +61,11 @@
                 }
                 <div class="card__subtitle">
                     <span>@recording.Label</span>
+                    @if (recording.YearStart != null || recording.YearFinish != null)
+                    {
+                        <span class="vertical-separator"></span>
+                        <span>@formatYearsRangeLoose(recording.YearStart, recording.YearFinish)</span>
+                    }
                     <span class="vertical-separator"></span>
                     <span>@formatWorkLength(recording.Length)</span>
                 </div>

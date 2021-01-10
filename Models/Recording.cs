@@ -21,6 +21,16 @@ namespace Models
         public string CoverName { get; init; }
         
         /// <summary>
+        /// Year when recording started. For single year either YearStart or YearFinish can be used.
+        /// </summary>
+        public int? YearStart { get; init; }
+        
+        /// <summary>
+        /// Year when recording finished. For single year either YearStart or YearFinish can be used.
+        /// </summary>
+        public int? YearFinish { get; init; }
+        
+        /// <summary>
         /// List of performers associated with the recordings.
         /// </summary>
         public Performer[] Performers { get; init; }
