@@ -11,11 +11,15 @@ namespace Models
         /// <summary>
         /// Name of the genre.
         /// </summary>
+        /// <example>Late Baroque</example>
         public string Name { get; init; }
+        
         /// <summary>
         /// Decorative icon.
         /// </summary>
+        /// <example>🐕</example>
         public string Icon { get; init; }
+        
         /// <summary>
         /// List of the works belonging to the genre.
         /// </summary>
