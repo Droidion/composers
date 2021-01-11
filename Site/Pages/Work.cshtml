@@ -1,6 +1,10 @@
 @page "~/composer/{composerSlug}/work/{workId}"
 @using static Helpers.StringHelpers
 @model Site.Pages.WorkModel
+@{
+    ViewData["Title"] = $"{Model.Work.Title} - {Model.Composer.LastName}";
+}
+
 
 <h1>@Model.Work.Title</h1>
 <div class="header-subtitle">by @Model.Composer.FirstName @Model.Composer.LastName</div>

@@ -1,6 +1,9 @@
 @page "~/composer/{slug}"
 @using static Helpers.StringHelpers
 @model Site.Pages.ComposerModel
+@{
+    ViewData["Title"] = Model.Composer.LastName;
+}
 
 <h1>@Model.Composer.FirstName @Model.Composer.LastName</h1>
 <div class="header-subtitle">
