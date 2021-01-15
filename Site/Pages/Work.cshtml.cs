@@ -60,17 +60,34 @@ namespace Site.Pages
         {
             try
             {
-                var composerTask = _dbQuery.GetComposerBySlug(composerSlug);
-                var workTask = _dbQuery.GetWorkById(workId);
-                var recordingsTask = _dbQuery.GetRecordingsByWork(workId);
-                var childWorksTask = _dbQuery.GetChildWorks(workId);
-                
-                await Task.WhenAll(composerTask, workTask, recordingsTask, childWorksTask);
-
-                Composer = composerTask.Result;
-                Work = workTask.Result.ToArray()[0];
-                Recordings = recordingsTask.Result.ToArray();
-                ChildWorks = childWorksTask.Result.ToArray();
+                Composer = await _dbQuery.GetComposerBySlug(composerSlug);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+            }
+            
+            try
+            {
+                Work = (await _dbQuery.GetWorkById(workId)).ToArray()[0];
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+            }
+            
+            try
+            {
+                Recordings = (await _dbQuery.GetRecordingsByWork(workId)).ToArray();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.ToString());
+            }
+            
+            try
+            {
+                ChildWorks = (await _dbQuery.GetChildWorks(workId)).ToArray();
             }
             catch (Exception e)
             {

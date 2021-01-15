@@ -86,7 +86,6 @@ namespace Data
         /// <param name="parameters">Parameters for SQL request</param>
         /// <typeparam name="T">Return data</typeparam>
         /// <returns>Data instance</returns>
-        /// <exception cref="InvalidOperationException">Could not parse DB JSON data</exception>
         private async Task<T> ExtractJson<T>(string sql, IEnumerable<SqlParam>? parameters)
         {
             await using var conn = _dbFactory.MakeConn();
@@ -108,13 +107,20 @@ namespace Data
             var rawJson = reader.GetString(0);
 
             // Parse json into model
-            var json = JsonSerializer.Deserialize<T>(rawJson);
-            if (json == null)
+            try
             {
-                throw new InvalidOperationException("Could not parse DB JSON data");
-            }
+                var json = JsonSerializer.Deserialize<T>(rawJson);
+                if (json == null)
+                {
+                    throw new InvalidOperationException("JSON was parsed as null");
+                }
 
-            return json;
+                return json;
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException("Could not parse DB JSON data", e);
+            }
         }
 
         /// <summary>
