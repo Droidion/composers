@@ -6,8 +6,20 @@
 }
 
 
-<h1>@Model.Work.Title</h1>
-<div class="header-subtitle">by @Model.Composer.FirstName @Model.Composer.LastName</div>
+<h1>
+    @if (Model.Work.CatalogueName != null)
+    {
+        <span>@Model.Work.Title, @Model.Work.CatalogueName @Model.Work.CatalogueNumber.ToString()@Model.Work.CataloguePostfix</span>
+    }
+    else
+    {
+        <span>@Model.Work.Title</span>
+    }
+</h1>
+<div class="header-subtitle">
+    <span><a href="/composer/@Model.Composer.Slug">@Model.Composer.FirstName @Model.Composer.LastName</a>,</span>
+    <span>@formatYearsRangeLoose(Model.Work.YearStart, Model.Work.YearFinish)</span>
+</div>
 
 @if (Model.ChildWorks.Length > 0)
 {
@@ -52,7 +64,7 @@
             <div>
                 @foreach (var performer in recording.Performers)
                 {
-                    <div>
+                    <div class="card__title">
                         @if (performer.Instrument != null)
                         {
                             <span>@performer.FirstName @performer.LastName, <em>@performer.Instrument</em></span>
@@ -77,7 +89,9 @@
                     @foreach (var streamer in recording.Streamers)
                     {
                         <div class="card__streamer-el">
-                            <a href="@streamer.Prefix@streamer.Link"><img src="~/img/@streamer.Icon" alt="Streaming service logo" /></a>
+                            <a href="@streamer.Prefix@streamer.Link">
+                                <img src="~/img/@streamer.Icon" alt="Streaming service logo"/>
+                            </a>
                         </div>
                     }
                 </div>

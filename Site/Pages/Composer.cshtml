@@ -27,9 +27,15 @@
                 <div class="card">
                     <div>@work.Title</div>
                     <div class="card__subtitle">
+                        @if (work.CatalogueName != null)
+                        {
+                            <span>@work.CatalogueName @work.CatalogueNumber.ToString()@work.CataloguePostfix</span>
+                            <span class="vertical-separator"></span>
+                        }
                         <span>@formatYearsRangeLoose(work.YearStart, work.YearFinish)</span>
                         <span class="vertical-separator"></span>
                         <span>@formatWorkLength(work.AverageMinutes)</span>
+
                     </div>
                 </div>
             </a>
