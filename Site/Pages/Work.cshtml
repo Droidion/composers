@@ -67,7 +67,8 @@
                     <div class="card__title">
                         @if (performer.Instrument != null)
                         {
-                            <span>@performer.FirstName @performer.LastName, <em>@performer.Instrument</em></span>
+                            <span>@performer.FirstName @performer.LastName</span>
+                            <span class="card__instrument">@performer.Instrument</span>
                         }
                         else
                         {
