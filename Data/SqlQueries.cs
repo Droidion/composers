@@ -179,7 +179,7 @@ from (
                                            'Link', rs.link,
                                            'Prefix', s.app_prefix) order by s.name) streamers
          from recordings r
-                  join labels l on r.label_id = l.id
+                  left join labels l on r.label_id = l.id
                   join recordings_streamers rs on r.id = rs.recording_id
                   join streamers s on rs.streamer_id = s.id
          where r.work_id = @WorkId
