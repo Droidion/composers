@@ -14,6 +14,7 @@ select json_build_object(
        'YearDied', c.year_died,
        'Countries', json_agg(c2.name),
        'Slug', c.slug,
+       'Enabled', c.enabled,
        'WikipediaLink', c.wikipedia_link,
        'ImslpLink', c.imslp_link) json
 from composers as c
