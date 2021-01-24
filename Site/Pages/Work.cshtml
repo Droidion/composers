@@ -7,13 +7,14 @@
 
 
 <h1>
+    <span>@Model.Work.Title</span>
+    @if (Model.Work.No != null)
+    {
+        <span>&nbsp;No. @Model.Work.No.ToString()</span>
+    }
     @if (Model.Work.CatalogueName != null)
     {
-        <span>@Model.Work.Title, @Model.Work.CatalogueName @Model.Work.CatalogueNumber.ToString()@Model.Work.CataloguePostfix</span>
-    }
-    else
-    {
-        <span>@Model.Work.Title</span>
+        <span>, @Model.Work.CatalogueName&nbsp;@Model.Work.CatalogueNumber.ToString()@Model.Work.CataloguePostfix</span>
     }
 </h1>
 <div class="header-subtitle">

@@ -25,7 +25,13 @@
         {
             <a href="/composer/@Model.Composer.Slug/work/@work.Id.ToString()">
                 <div class="card">
-                    <div>@work.Title</div>
+                    <div>
+                        <span>@work.Title</span>
+                        @if (work.No != null)
+                        {
+                            <span>No. @work.No.ToString()</span>
+                        }
+                    </div>
                     <div class="card__subtitle">
                         @if (work.CatalogueName != null)
                         {
