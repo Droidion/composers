@@ -31,6 +31,10 @@
                         {
                             <span>No. @work.No.ToString()</span>
                         }
+                        @if (work.Nickname != null)
+                        {
+                            <span>@work.Nickname</span>
+                        }
                     </div>
                     <div class="card__subtitle">
                         @if (work.CatalogueName != null)

@@ -85,7 +85,8 @@ select w.id,
        w.catalogue_number,
        w.catalogue_postfix,
        k.name as key,
-       w.no
+       w.no,
+       w.nickname
 from works w
          left join catalogues c on w.catalogue_id = c.id
          left join keys k on w.key_id = k.id
@@ -104,7 +105,8 @@ select w.id,
        w.catalogue_number,
        w.catalogue_postfix,
        k.name as key,
-       w.no
+       w.no,
+       w.nickname
 from works w
          left join catalogues c on w.catalogue_id = c.id
          left join keys k on w.key_id = k.id
@@ -132,7 +134,8 @@ from (select g.name,
                               'CatalogueNumber', w.catalogue_number,
                               'CataloguePostfix', w.catalogue_postfix,
                               'Key', k.name,
-                              'No', w.no
+                              'No', w.no,
+                              'Nickname', w.nickname
                           ) order by w.year_finish, w.catalogue_number) works
       from works w
                join works_genres wg on w.id = wg.work_id

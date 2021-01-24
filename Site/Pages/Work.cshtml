@@ -16,6 +16,10 @@
     {
         <span>, @Model.Work.CatalogueName&nbsp;@Model.Work.CatalogueNumber.ToString()@Model.Work.CataloguePostfix</span>
     }
+    @if (Model.Work.Nickname != null)
+    {
+        <span>: @Model.Work.Nickname</span>
+    }
 </h1>
 <div class="header-subtitle">
     <span><a href="/composer/@Model.Composer.Slug">@Model.Composer.FirstName @Model.Composer.LastName</a>,</span>
