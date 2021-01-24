@@ -48,6 +48,7 @@ from (select p.id,
                               'YearDied', c.year_died,
                               'Countries', c.countries,
                               'Slug', c.slug,
+                              'Enabled', c.enabled,
                               'WidipediaLink', c.wikipedia_link,
                               'ImslpLink', c.imslp_link) order by c.last_name) composers
       from periods p
@@ -58,6 +59,7 @@ from (select p.id,
                             c.year_born,
                             c.year_died,
                             c.slug,
+                            c.enabled,
                             c.wikipedia_link,
                             c.imslp_link,
                             c.period_id

@@ -13,8 +13,8 @@
     <div class="card-list">
         @foreach (var composer in period.Composers)
         {
-            <a href="/composer/@composer.Slug">
-                <div class="card">
+            <a href="@(composer.Enabled ? "/composer/@composer.Slug" : "#")">
+                <div class="card @(composer.Enabled ? "" : "disabled")">
                     <div>
                         <span>@composer.LastName, </span>
                         <span class="card__light-text">@composer.FirstName</span>

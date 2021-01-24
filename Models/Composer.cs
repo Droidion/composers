@@ -55,5 +55,10 @@ namespace Models
         /// Link to composer's IMSLP page with the list of all works.
         /// </summary>
         public string? ImslpLink { get; init; }
+        
+        /// <summary>
+        /// Show this composer on the main page
+        /// </summary>
+        public bool Enabled { get; init; }
     }
 }
