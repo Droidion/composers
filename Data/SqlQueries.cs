@@ -136,7 +136,7 @@ from (select g.name,
                               'Key', k.name,
                               'No', w.no,
                               'Nickname', w.nickname
-                          ) order by w.year_finish, w.catalogue_number) works
+                          ) order by w.no, w.year_finish, w.catalogue_number) works
       from works w
                join works_genres wg on w.id = wg.work_id
                join genres g on wg.genre_id = g.id
