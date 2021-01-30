@@ -13,7 +13,10 @@
     display: flex
     flex: 1
     margin: 0.5rem 2rem 1.5rem 0
-    min-width: 450px
+    min-width: 100%
+
+    @include mixins.mq('desktop')
+      min-width: 450px
   
   &__light-text
     font-weight: 300
@@ -44,6 +47,11 @@
 .cover
   border: 1px solid colors.$black-20
   float: left
-  height: 200px
-  width: 200px
-  margin-right: 1.5rem
+  height: 100px
+  margin-right: 1rem
+  width: 100px
+
+  @include mixins.mq('desktop')
+    height: 200px
+    margin-right: 1.5rem
+    width: 200px

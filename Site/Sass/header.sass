@@ -4,23 +4,42 @@
 .header
   @include mixins.centered-flex()
   @include mixins.block-width()
-  background-color: white
+  background-color: colors.$black-10
   grid-area: header
+  height: 4rem
   justify-content: space-between
-  padding: 1.4rem 0
-  position: sticky
   top: 0
+  z-index: 1
+
+  @include mixins.mq('desktop')
+    background-color: white
+    height: 6rem
+    position: sticky
   
 .brand
   @include mixins.centered-flex()
   
+  &__logo
+    width: 2.5rem
+
+    @include mixins.mq('desktop')
+      width: 4rem
+  
   &__name
     font-family: 'Domine', serif
-    font-size: 2rem
-    margin-left: 1rem
+    font-size: 1rem
+    margin-left: 0.5rem
+
+    @include mixins.mq('desktop')
+      font-size: 2rem
+      margin-left: 1rem
 
 .menu
   @include mixins.centered-flex()
+  display: none
+
+  @include mixins.mq('desktop')
+    display: flex
 
   &__item
     margin: 0 2rem

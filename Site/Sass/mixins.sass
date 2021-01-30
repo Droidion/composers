@@ -1,7 +1,20 @@
 @mixin block-width()
-  max-width: 1000px
+  max-width: 1300px
+  padding-left: 1rem
+  padding-right: 1rem
   width: 100%
   
 @mixin centered-flex()
   align-items: center
   display: flex
+  
+
+$breakpoints: ("desktop": 1300px)
+
+@mixin mq($width, $type: min)
+  @if map_has_key($breakpoints, $width)
+    $width: map_get($breakpoints, $width)
+    @if $type == max
+      $width: $width - 1px
+    @media only screen and (#{$type}-width: $width)
+      @content

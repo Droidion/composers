@@ -1,3 +1,14 @@
+@use 'colors'
+@use 'mixins'
+
 footer
+  @include mixins.block-width()
+  @include mixins.centered-flex()
+  background-color: colors.$black-10
   height: 4rem
+  flex-direction: column
+  justify-content: center
   grid-area: footer
+
+  @include mixins.mq('desktop')
+    background-color: white

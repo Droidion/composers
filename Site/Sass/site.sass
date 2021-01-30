@@ -4,10 +4,14 @@
 @use 'footer'
 @use 'main'
 @use 'blocks'
+@use 'mixins'
 
 html
-  font-size: 18px
+  font-size: 16px
   overflow-y: scroll
+
+  @include mixins.mq('desktop')
+    font-size: 18px
 
 body
   display: grid
@@ -22,12 +26,18 @@ h1, h2
 
 h1
   display: flex
-  font-size: 2rem
+  flex-wrap: wrap
+  font-size: 1.6rem
   margin-top: 1rem
   justify-content: center
+  text-align: center
+
+  @include mixins.mq('desktop')
+    font-size: 2rem
 
 h2
   font-size: 1.2rem
+  margin-top: 1rem
 
 a
   color: inherit
@@ -44,7 +54,6 @@ hr
 
 .footer-logo
   height: 2rem
-  margin: 0 auto
   width: 3rem
 
 .vertical-separator
