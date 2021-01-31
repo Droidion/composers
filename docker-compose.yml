@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  site:
+    build: .
+    env_file:
+      - composers.env
+    ports:
+      - "5000:80"
