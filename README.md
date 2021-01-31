@@ -24,10 +24,14 @@ You need Postgres 12 database up and running somewhere on host or remotely. Earl
 
 You need to provide environment variable with the connection string for Postgres. 
 
-Create `composers.env` file in solution folder (root folder), set up hostname, username and database name:
+Create `composers.env` file in solution folder (root folder)and set up
+
+- hostname, username and database name;
+- Sentry Dsn for tracking errors
 
 ```
 ConnectionStrings:PostgresConnection=Host=host.docker.internal;Username=foobar;Database=composers
+Sentry:Dsn=https://sentry_dsn
 ```
 
 Have `docker` and `docker-compose` installed.

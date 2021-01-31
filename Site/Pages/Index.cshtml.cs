@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Data;
 using JetBrains.Annotations;
+using Sentry;
 
 namespace Site.Pages
 {
@@ -54,7 +55,7 @@ namespace Site.Pages
             }
             catch (Exception e)
             {
-                _logger.LogError(e.ToString());
+                SentrySdk.CaptureException(e);
             }
         }
     }
