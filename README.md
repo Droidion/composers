@@ -1,4 +1,4 @@
-# Composers Distilled
+# Opus Classical
 
 ![Screenshot](Docs/screenshot.png)
 
