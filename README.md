@@ -14,11 +14,18 @@ Stack is .NET 5, C#, F#, Postgres, Docker.
 
 You need Postgres 12 database up and running somewhere on host or remotely. Earlier versions may or may not work.
 
-You need to provide environment variable with the connection string for Postgres.
+You need to provide environment variable with the connection string for Postgres. 
 
-When running docker image, set it's credentials in the environment variable, like shown.
+Create `composers.env` file in solution folder (root folder), set up hostname, username and database name:
+
+```
+ConnectionStrings:PostgresConnection=Host=host.docker.internal;Username=foobar;Database=composers
+```
+
+Have `docker` and `docker-compose` installed.
+
+Then run
 
 ```shell
-$ docker build -t site .
-$ docker run --rm -it -e "ConnectionStrings:PostgresConnection=Host=host.docker.internal;Username=denis.rodionov;Database=composers" -p 5001:80 site --name site-app
+$ docker-compose up -d
 ```
