@@ -10,6 +10,14 @@ See design in [Figma](https://www.figma.com/file/YNiFyHcnkGEP7afuYFAinX/Composer
 
 Stack is .NET 5, C#, F#, Postgres, Docker.
 
+## Database
+
+Use Postgres 12 or later.
+
+Restore with `pg_restore` from `Migrations` folder.
+
+Dump was made with `pg_dump --dbname=composers --file="/Path/pg_dump_timestamp.sql" --no-owner` command.
+
 ## How to run with Docker
 
 You need Postgres 12 database up and running somewhere on host or remotely. Earlier versions may or may not work.
