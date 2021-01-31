@@ -104,11 +104,11 @@ namespace Data
             // Read data as a single string
             await using var reader = await cmd.ExecuteReaderAsync();
             await reader.ReadAsync();
-            var rawJson = reader.GetString(0);
 
             // Parse json into model
             try
             {
+                var rawJson = reader.GetString(0);
                 var json = JsonSerializer.Deserialize<T>(rawJson);
                 if (json == null)
                 {
@@ -119,7 +119,7 @@ namespace Data
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException("Could not parse DB JSON data", e);
+                throw new InvalidOperationException("Could not retrieve DB JSON data", e);
             }
         }
 
