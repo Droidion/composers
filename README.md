@@ -29,3 +29,5 @@ Then run
 ```shell
 $ docker-compose up -d
 ```
+
+Site should be available at `http://localhost:5000/`
