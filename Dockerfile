@@ -16,7 +16,7 @@ COPY Models/. ./Models
 COPY Helpers/. ./Helpers
 COPY Helpers.Tests/. ./Helpers.Tests
 COPY Data/. ./Data
-RUN dotnet publish -c release -o /DockerOutput/Site -r linux-x64
+RUN dotnet publish -c release -o /DockerOutput/Site -r ubuntu.20.04-x64
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
