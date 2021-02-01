@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
 
 namespace Site
 {
@@ -25,7 +26,7 @@ namespace Site
             services.AddSingleton(_ => new DbFactory(Configuration["ConnectionStrings:PostgresConnection"]));
             services.AddTransient<DbQuery>();
             services.AddResponseCompression();
-            
+
             IMvcBuilder builder = services.AddRazorPages();
 #if DEBUG
             if (Env.IsDevelopment())
@@ -49,11 +50,19 @@ namespace Site
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            
+
             app.UseResponseCompression();
 
             //app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = ctx =>
+                {
+                    const int durationInSeconds = 60 * 60 * 24 * 7;
+                    ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                        "public,max-age=" + durationInSeconds;
+                }
+            });
 
             app.UseRouting();
 
