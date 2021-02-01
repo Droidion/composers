@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@{
+    var umamiId = Configuration.GetValue("Umami:Id", "");
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
@@ -7,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com"> 
     <link href="https://fonts.googleapis.com/css2?family=Domine:wght@600&family=Roboto:ital,wght@0,300;0,400;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <script async defer data-website-id="@umamiId" src="https://umami.zunh.dev/umami.js"></script>
 </head>
 <body>
 <partial name="_Header" />
