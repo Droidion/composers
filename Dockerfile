@@ -8,7 +8,7 @@ COPY Models/*.csproj ./Models/
 COPY Helpers/*.fsproj ./Helpers/
 COPY Helpers.Tests/*.csproj ./Helpers.Tests/
 COPY Data/*.csproj ./Data/
-RUN dotnet restore
+RUN dotnet restore -r linux-musl-x64
 
 # Copy everything else and build
 COPY Site/. ./Site
@@ -16,10 +16,10 @@ COPY Models/. ./Models
 COPY Helpers/. ./Helpers
 COPY Helpers.Tests/. ./Helpers.Tests
 COPY Data/. ./Data
-RUN dotnet publish -c release -o /DockerOutput/Site -r ubuntu.20.04-x64
+RUN dotnet publish -c release -o /DockerOutput/Site -r linux-musl-x64 --self-contained true /p:PublishTrimmed=true /p:PublishReadyToRun=true
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:5.0
 WORKDIR /DockerOutput/Site
 COPY --from=build-env /DockerOutput/Site ./
-ENTRYPOINT ["dotnet", "Site.dll"]
+ENTRYPOINT ["./Site"]
