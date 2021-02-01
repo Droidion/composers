@@ -4,6 +4,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <Nullable>enable</Nullable>
         <UserSecretsId>a54fff17-2805-4bff-be00-44cc0b57b76d</UserSecretsId>
+        <PublishReadyToRun>true</PublishReadyToRun>
     </PropertyGroup>
 
     <ItemGroup>
