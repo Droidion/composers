@@ -36,16 +36,13 @@
 
 .menu
   @include mixins.centered-flex()
-  display: none
-
-  @include mixins.mq('desktop')
-    display: flex
+  display: flex
 
   &__item
-    margin: 0 2rem
-    
-    &:last-child, &:first-child
-      margin: 0
+    margin: 0 0.5rem
+
+    @include mixins.mq('desktop')
+      margin: 0 2rem
       
 .search
   height: 2rem
