@@ -3,8 +3,8 @@
 @model Site.Pages.WorkModel
 @{
     ViewData["Title"] = $"{Model.Work.Title} - {Model.Composer.LastName}";
+    ViewData["Description"] = $"List of good {Model.Work.Title} recordings composed by {Model.Composer.FirstName} {Model.Composer.LastName} with direct links to the streaming apps.";
 }
-
 
 <h1>
     <span>@Model.Work.Title</span>

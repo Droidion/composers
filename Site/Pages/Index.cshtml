@@ -4,7 +4,10 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Composers";
+    ViewData["Description"] = "List of classical music composers grouped by periods.";
 }
+
+<h1>Composers</h1>
 
 @foreach (var period in Model.Periods)
 {

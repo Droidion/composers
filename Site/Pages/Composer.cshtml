@@ -3,6 +3,7 @@
 @model Site.Pages.ComposerModel
 @{
     ViewData["Title"] = Model.Composer.LastName;
+    ViewData["Description"] = $"List of important compositions by {Model.Composer.FirstName} {Model.Composer.LastName}.";
 }
 
 <h1>@Model.Composer.FirstName @Model.Composer.LastName</h1>
