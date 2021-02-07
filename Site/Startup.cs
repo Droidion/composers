@@ -26,6 +26,7 @@ namespace Site
             services.AddSingleton(_ => new DbFactory(Configuration["ConnectionStrings:PostgresConnection"]));
             services.AddTransient<DbQuery>();
             services.AddResponseCompression();
+            services.AddControllers();
 
             IMvcBuilder builder = services.AddRazorPages();
 #if DEBUG
@@ -68,7 +69,11 @@ namespace Site
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapRazorPages(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllers();
+            });
         }
     }
 }

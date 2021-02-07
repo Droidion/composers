@@ -2,6 +2,8 @@ namespace Data
 {
     public static class SqlQueries
     {
+        public const string UserByLogin = @"select login, password from users where login = @Login";
+        
         /// <summary>
         /// Select Composer by its slug name
         /// </summary>

@@ -13,8 +13,10 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Isopoh.Cryptography.Argon2" Version="1.1.10" />
+      <PackageReference Include="jose-jwt" Version="3.0.0" />
       <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.2" />
-      <PackageReference Include="Sentry.AspNetCore" Version="3.0.1" />
+      <PackageReference Include="Sentry.AspNetCore" Version="3.0.3" />
     </ItemGroup>
     
 </Project>

@@ -32,6 +32,9 @@ namespace Data
             _dbFactory = dbFactory;
         }
 
+        public async Task<IEnumerable<User>> GetUserByLogin(string login) =>
+            await QueryWithDapper<User>(SqlQueries.UserByLogin, new {Login = login});
+
         /// <summary>
         /// Retrieves composer's info by their slug name. Does not contain works
         /// </summary>
