@@ -2,7 +2,12 @@
 @using static Helpers.StringHelpers
 @model Site.Pages.WorkModel
 @{
-    ViewData["Title"] = $"{Model.Work.Title} - {Model.Composer.LastName}";
+    var workName = Model.Work.Title;
+    @if (Model.Work.No != null)
+    {
+        workName = $"{workName} No. {Model.Work.No.ToString()}";
+    }
+    ViewData["Title"] = $"{workName} - {Model.Composer.LastName}";
     ViewData["Description"] = $"List of good {Model.Work.Title} recordings composed by {Model.Composer.FirstName} {Model.Composer.LastName} with direct links to the streaming apps.";
 }
 
