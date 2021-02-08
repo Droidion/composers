@@ -1,10 +1,14 @@
+using System;
+using System.Text;
 using Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Net.Http.Headers;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Site
 {
@@ -24,9 +28,30 @@ namespace Site
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton(_ => new DbFactory(Configuration["ConnectionStrings:PostgresConnection"]));
+            services.AddSingleton(Configuration);
             services.AddTransient<DbQuery>();
             services.AddResponseCompression();
             services.AddControllers();
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    RequireExpirationTime = true,
+                    ClockSkew = new TimeSpan(0, 5, 0),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecretKey"]))
+                };
+            });
 
             IMvcBuilder builder = services.AddRazorPages();
 #if DEBUG
@@ -67,6 +92,7 @@ namespace Site
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

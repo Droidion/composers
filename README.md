@@ -29,11 +29,15 @@ You need to provide environment variable with the connection string for Postgres
 Create `composers.env` file in solution folder (root folder)and set up
 
 - hostname, username and database name;
-- Sentry Dsn for tracking errors
+- Sentry Dsn for tracking errors;
+- Umami key for gathering page statistics; 
+- Secret key for signing JWTs.
 
 ```
 ConnectionStrings:PostgresConnection=Host=host.docker.internal;Username=foobar;Database=composers
 Sentry:Dsn=https://sentry_dsn
+Umami:foobar
+SecretKey:foobar
 ```
 
 Have `docker` and `docker-compose` installed.

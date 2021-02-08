@@ -32,8 +32,20 @@ namespace Data
             _dbFactory = dbFactory;
         }
 
+        /// <summary>
+        /// Retrieves user by their login
+        /// </summary>
+        /// <param name="login">User login</param>
+        /// <returns>User</returns>
         public async Task<IEnumerable<User>> GetUserByLogin(string login) =>
             await QueryWithDapper<User>(SqlQueries.UserByLogin, new {Login = login});
+        
+        /// <summary>
+        /// Retrieves all music labels
+        /// </summary>
+        /// <returns>Labels</returns>
+        public async Task<IEnumerable<Label>> GetLabels() =>
+            await QueryWithDapper<Label>(SqlQueries.Labels, null);
 
         /// <summary>
         /// Retrieves composer's info by their slug name. Does not contain works
@@ -133,7 +145,7 @@ namespace Data
         /// <param name="parameters">Parameters for SQL query</param>
         /// <typeparam name="T">Type of mapped data to return</typeparam>
         /// <returns>Extracted data</returns>
-        private async Task<IEnumerable<T>> QueryWithDapper<T>(string sql, object parameters)
+        private async Task<IEnumerable<T>> QueryWithDapper<T>(string sql, object? parameters)
         {
             await using var conn = _dbFactory.MakeConn();
             await conn.OpenAsync();

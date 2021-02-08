@@ -1,16 +1,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Data;
 using Isopoh.Cryptography.Argon2;
 using Jose;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Models;
 
 namespace Site.Api
 {
+    /// <summary>
+    /// Endpoints for working with authorization tokens
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class LoginController : ControllerBase
@@ -20,12 +25,26 @@ namespace Site.Api
         /// </summary>
         private readonly DbQuery _dbQuery;
 
-        public LoginController(DbQuery dbQuery)
+        /// <summary>
+        /// Global system config
+        /// </summary>
+        private readonly IConfiguration _configuration;
+
+        public LoginController(DbQuery dbQuery, IConfiguration configuration)
         {
             _dbQuery = dbQuery;
+            _configuration = configuration;
         }
 
+        /// <summary>
+        /// GET /api/login
+        /// Searches for user in the database, checks the password, generates JWT.
+        /// </summary>
+        /// <param name="user">User's login and password</param>
+        /// <returns>JWT</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> Post([FromBody] User user)
         {
             try
@@ -51,15 +70,20 @@ namespace Site.Api
             }
         }
 
+        /// <summary>
+        /// Creates JWT with the given login
+        /// </summary>
+        /// <param name="login">User login</param>
+        /// <returns>JWT</returns>
         private string CreateToken(string login)
         {
-            var payload = new Dictionary<string, object>()
+            var payload = new Dictionary<string, object>
             {
                 { "sub", login },
-                { "exp", 1300819380 }
+                { "exp", DateTimeOffset.Now.AddHours(1).ToUnixTimeSeconds() }
             };
 
-            var secretKey = new byte[]{164,60,194,0,161,189,41,38,130,89,141,164,45,170,159,209,69,137,243,216,191,131,47,250,32,107,231,117,37,158,225,234};
+            var secretKey = Encoding.UTF8.GetBytes(_configuration["SecretKey"]);
 
             return JWT.Encode(payload, secretKey, JwsAlgorithm.HS256);
         }

@@ -6,7 +6,7 @@ namespace Models
     /// Performer of some musical work
     /// </summary>
     [PublicAPI]
-    public class Performer
+    public record Performer
     {
         /// <summary>
         /// First name. Can be null for performers like orchestras when LastName field should be used.
