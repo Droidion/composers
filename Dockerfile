@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:5.0.103-buster-slim-amd64 AS build-env
 WORKDIR /DockerSource
 
 # Copy csproj/fsproj and restore as distinct layers
@@ -19,7 +19,7 @@ COPY Data/. ./Data
 RUN dotnet publish -c release -o /DockerOutput/Site -r ubuntu.20.04-x64 --self-contained true -p:PublishReadyToRun=true
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.103-buster-slim-amd64
 WORKDIR /DockerOutput/Site
 COPY --from=build-env /DockerOutput/Site ./
 ENTRYPOINT ["./Site"]
