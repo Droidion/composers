@@ -8,7 +8,7 @@ COPY Models/*.csproj ./Models/
 COPY Helpers/*.fsproj ./Helpers/
 COPY Helpers.Tests/*.csproj ./Helpers.Tests/
 COPY Data/*.csproj ./Data/
-RUN dotnet restore -r ubuntu.20.04-x64
+RUN dotnet restore
 
 # Copy everything else and build
 COPY Site/. ./Site
