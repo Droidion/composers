@@ -19,7 +19,7 @@ COPY Data/. ./Data
 RUN dotnet publish -c release -o /DockerOutput/Site -r ubuntu.20.04-x64 --self-contained true -p:PublishReadyToRun=true
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:5.0.103-buster-slim-amd64
+FROM mcr.microsoft.com/dotnet/aspnet:5.0.3-buster-slim-amd64
 WORKDIR /DockerOutput/Site
 COPY --from=build-env /DockerOutput/Site ./
 ENTRYPOINT ["./Site"]
