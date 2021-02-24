@@ -121,7 +121,7 @@ from works w
          left join catalogues c on w.catalogue_id = c.id
          left join keys k on w.key_id = k.id
 where w.parent_work_id = @Id
-order by no, catalogue_number, catalogue_postfix, year_finish";
+order by no, catalogue_number, catalogue_postfix, year_finish, nickname";
 
         /// <summary>
         /// Select works grouped by genres by composer Id
@@ -146,7 +146,7 @@ from (select g.name,
                               'Key', k.name,
                               'No', w.no,
                               'Nickname', w.nickname
-                          ) order by w.no, w.year_finish, w.catalogue_number) works
+                          ) order by w.no, w.year_finish, w.catalogue_number, w.nickname) works
       from works w
                join works_genres wg on w.id = wg.work_id
                join genres g on wg.genre_id = g.id
