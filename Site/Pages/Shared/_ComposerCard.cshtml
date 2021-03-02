@@ -1,0 +1,14 @@
+@using static Helpers.StringHelpers
+@model Models.Composer
+
+<div class="card @(Model.Enabled ? "" : "disabled")">
+    <div>
+        <span>@Model.LastName, </span>
+        <span class="card__light-text">@Model.FirstName</span>
+    </div>
+    <div class="card__subtitle">
+        <span>@string.Join(", ", Model.Countries)</span>
+        <span class="vertical-separator"></span>
+        <span>@formatYearsRangeStrict(Model.YearBorn, Model.YearDied)</span>
+    </div>
+</div>

@@ -1,5 +1,4 @@
 ﻿@page
-@using static Helpers.StringHelpers
 @model Site.Pages.IndexModel
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
@@ -16,19 +15,16 @@
     <div class="card-list">
         @foreach (var composer in period.Composers)
         {
-            <a href="@(composer.Enabled ? $"/composer/{composer.Slug}" : "#")">
-                <div class="card @(composer.Enabled ? "" : "disabled")">
-                    <div>
-                        <span>@composer.LastName, </span>
-                        <span class="card__light-text">@composer.FirstName</span>
-                    </div>
-                    <div class="card__subtitle">
-                        <span>@string.Join(", ", composer.Countries)</span>
-                        <span class="vertical-separator"></span>
-                        <span>@formatYearsRangeStrict(composer.YearBorn, composer.YearDied)</span>
-                    </div>
-                </div>
-            </a>
+            @if (composer.Enabled)
+            {
+                <a href="@(composer.Enabled ? $"/composer/{composer.Slug}" : "#")">
+                    @await Html.PartialAsync("_ComposerCard", composer)
+                </a>
+            }
+            else
+            {
+                @await Html.PartialAsync("_ComposerCard", composer)
+            }
         }
     </div>
 }
