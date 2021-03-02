@@ -104,7 +104,7 @@
                     @foreach (var streamer in recording.Streamers)
                     {
                         <div class="card__streamer-el">
-                            <a href="@streamer.Prefix@streamer.Link">
+                            <a href="@streamer.Prefix@streamer.Link" class="umami--click--@streamer.Name-@Model.Composer.Slug-@Model.Work.Id">
                                 <img src="~/img/@streamer.Icon" alt="Streaming service logo"/>
                             </a>
                         </div>
