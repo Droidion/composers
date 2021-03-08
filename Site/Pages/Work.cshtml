@@ -46,6 +46,10 @@
                     {
                         <span>No. @work.No.ToString() </span>
                     }
+                    @if (work.Nickname != null)
+                    {
+                        <span>@work.Nickname </span>
+                    }
                     @if (work.Key != null)
                     {
                         <span>in @work.Key</span>
